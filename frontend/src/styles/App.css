@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+  height: 100vh;
+  overflow: hidden;
+  background: #f5f6fa;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+} 

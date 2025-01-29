@@ -1,0 +1,802 @@
+.visualizer-container {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  background: black;
+}
+
+.visualizer-container::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+.visualization-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  overflow: hidden;
+  background: #edf2f7;  /* Slightly darker background for the entire section */
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: teal;
+}
+
+.visualization-section::-webkit-scrollbar {
+  display: none;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex: 0 0 auto;
+}
+
+.controls input {
+  flex: 1;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.controls input:focus {
+  border-color: #2c3e50;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
+}
+
+.controls select {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  background: white;
+  font-size: 1rem;
+  cursor: pointer;
+  min-width: 180px;
+}
+
+.visualization-area {
+  flex: 1;
+  background: black;
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  min-height: 600px;
+  height: calc(100vh - 200px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: auto;
+  margin: 0.5rem 0;
+}
+
+.visualization-area::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.visualization-area::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.visualization-area::-webkit-scrollbar-thumb {
+  background: rgba(44, 62, 80, 0.5);
+  border-radius: 4px;
+}
+
+.visualization-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(44, 62, 80, 0.7);
+}
+
+.code-section {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.code-section::-webkit-scrollbar {
+  display: none;
+}
+
+.code-header {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.code-tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.code-tab.active {
+  background: #2c3e50;
+  color: white;
+}
+
+.code-content {
+  height: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.code-content::-webkit-scrollbar {
+  display: none;
+}
+
+.error-message {
+  color: #e74c3c;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1200px) {
+  .visualizer-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .code-section {
+    height: 500px;
+  }
+}
+
+.operation-controls {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.operation-select,
+.operation-input,
+.position-input {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.operation-select {
+  min-width: 200px;
+}
+
+.operation-input,
+.position-input {
+  width: 120px;
+}
+
+.operation-button {
+  padding: 0.8rem 1.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.operation-button:hover {
+  background: #34495e;
+}
+
+.prompt-box {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.prompt-box p {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.code-snippet {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.nodes-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4rem 6rem;
+  padding: 2rem;
+  position: relative;
+  overflow: visible !important;
+  background: orange;
+  border-radius: 12px;
+  width: calc(100% - 4rem);
+  height: calc(100% - 4rem);
+  min-height: 500px;
+  align-items: start;
+  justify-items: center;
+  margin: auto;
+}
+
+.nodes-container::-webkit-scrollbar {
+  display: none;
+}
+
+.node-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  min-width: 150px;
+  padding: 0.5rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.node-wrapper:first-child,
+.node-wrapper:last-child {
+  margin: 0;
+  padding: 1rem;
+}
+
+.node-wrapper:nth-child(4n) {
+  border-right: none;
+}
+
+.node-wrapper:nth-child(n+5) {
+  margin-top: 1rem;
+}
+
+.node-wrapper.dragging {
+  z-index: 1000;
+  cursor: grabbing;
+  transform: scale(1.05);
+  opacity: 0.9;
+  pointer-events: none;
+  transition: all 0.05s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* Visual feedback for drag target */
+.node-wrapper.drag-over {
+  transform: scale(0.95);
+  opacity: 0.7;
+  transition: all 0.05s ease;
+  z-index: 2;
+}
+
+/* Remove previous drag styles */
+.node-wrapper::before {
+  display: none;
+}
+
+/* Add transition for smooth swapping */
+.node-wrapper {
+  transition: all 0.15s ease-out;
+}
+
+/* Prevent flipping during swap */
+.node-wrapper.dragging {
+  transform-origin: center center;
+  rotate: 0deg !important;
+}
+
+/* Improve arrow connections during drag */
+.node-wrapper.dragging .next-pointer .link-svg,
+.node-wrapper.dragging .prev-pointer .link-svg {
+  width: auto;
+  transition: width 0.05s ease;
+}
+
+/* Add visual feedback for swap positions */
+.node-wrapper::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  right: -1rem;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  background: rgba(44, 62, 80, 0.1);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+}
+
+.node-wrapper.dragging::before {
+  opacity: 1;
+}
+
+.visualization-area.circular {
+  height: 600px;
+  min-height: 600px;
+}
+
+.visualization-area.circular .nodes-container {
+  min-height: 550px;
+  justify-content: center;
+}
+
+.visualization-area:not(.circular) {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.visualization-area {
+  scroll-behavior: smooth;
+}
+
+.node-container {
+  position: relative;
+  z-index: 2;
+  background: white;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-path {
+  stroke-dasharray: 5, 5;
+}
+
+.next-pointer {
+  position: absolute;
+  right: -3rem;
+  top: -50px;
+  width: 3rem;
+  height: 100px;
+  transform-origin: left center;
+}
+
+.prev-pointer {
+  right: calc(100% + 3px);
+}
+
+/* Add animation for showing/hiding elements */
+.operation-input,
+.position-input,
+.operation-button {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.link-svg {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+/* Add styles for the connection line */
+.link-line {
+  stroke: #2c3e50;
+  stroke-width: 1.5;
+  fill: none;
+  transition: all 0.3s ease;
+}
+
+/* Fix body and html scrolling */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Add these styles */
+.welcome-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 4rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  width: 600px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overlay for welcome message */
+.welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.welcome-message h1 {
+  color: white;
+  margin-bottom: 1.5rem;
+  font-size: 2.8rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-message p {
+  color: #e0e0e0;
+  font-size: 1.3rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 80%;
+}
+
+.welcome-button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.welcome-button:hover {
+  background: #2980b9;
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  transform: translateY(-2px);
+}
+
+.welcome-button:active {
+  transform: translateY(1px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Ensure visualization area shows behind welcome message */
+.visualization-area {
+  position: relative;
+  z-index: 1;
+}
+
+/* Style the input on focus */
+.controls input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Add a subtle grid pattern to the visualization area */
+.visualization-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+/* Remove time complexity styles */
+.time-complexity,
+.complexity-info,
+.complexity-value {
+  display: none;
+}
+
+/* Add highlight effect for potential swap target */
+.node-wrapper.drag-over::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px dashed #3498db;
+  border-radius: 10px;
+  animation: pulse 1s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Remove any transform styles that might interfere */
+.node-wrapper.dragging * {
+  pointer-events: none;
+}
+
+/* Adjust node wrapper for doubly linked list */
+.node-wrapper.doubly {
+  padding: 1.5rem;
+  min-width: 280px;
+}
+
+/* Adjust spacing for prev/next pointers in doubly list */
+.node-wrapper.doubly .node-groups {
+  gap: 1.5rem;
+}
+
+/* Add specific styles for doubly linked list view */
+.visualization-area:has(.doubly) .nodes-container {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+}
+
+/* Ensure proper spacing for nodes in new rows */
+.node-wrapper.doubly:nth-child(n+4) {
+  margin-top: 2rem;
+}
+
+/* Remove right border for every third node */
+.node-wrapper.doubly:nth-child(3n) {
+  border-right: none;
+}
+
+/* Specific grid for doubly linked list (3 nodes per row) */
+.nodes-container:has(.doubly) {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+}
+
+/* Node wrapper styles for singly */
+.node-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  min-width: max-content;
+  box-sizing: border-box;
+}
+
+/* Additional styles for doubly nodes */
+.node-wrapper.doubly {
+  padding: 1.5rem;
+  min-width: 280px;
+}
+
+/* Spacing for singly nodes */
+.node-wrapper:nth-child(4n) {
+  border-right: none;
+}
+
+/* Spacing for doubly nodes */
+.node-wrapper.doubly:nth-child(3n) {
+  border-right: none;
+}
+
+/* Row spacing for singly */
+.node-wrapper:nth-child(n+5) {
+  margin-top: 1rem;
+}
+
+/* Row spacing for doubly */
+.node-wrapper.doubly:nth-child(n+4) {
+  margin-top: 2rem;
+}
+
+/* Add styles for sort controls */
+.sort-controls {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.sort-button {
+  padding: 0.8rem 1.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sort-options {
+  display: flex;
+  gap: 1rem;
+  min-width: 400px;
+}
+
+.sort-option {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ascending button */
+.sort-option:nth-child(1) {
+  background: #27ae60;
+}
+
+.sort-option:nth-child(1):hover {
+  background: #219a52;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+/* Descending button */
+.sort-option:nth-child(2) {
+  background: #e74c3c;
+}
+
+.sort-option:nth-child(2):hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Cancel button */
+.sort-option.cancel {
+  background: #95a5a6;
+  flex: 0.8; /* Make cancel button slightly smaller */
+}
+
+.sort-option.cancel:hover {
+  background: #7f8c8d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(149, 165, 166, 0.3);
+}
+
+/* Active state for all buttons */
+.sort-option:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Update elastic connection styles */
+.elastic-connection {
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  overflow: visible !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.connection-path {
+  stroke: #2c3e50;
+  stroke-width: 2;
+  pointer-events: none;
+  stroke-linecap: round;
+}
+
+.connection-path.stretching {
+  stroke-width: 3;
+  stroke-opacity: 0.8;
+}
+
+/* Ensure proper node container positioning */
+.node-container {
+  position: relative;
+  z-index: 2;
+  background: white;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure container handles overflow properly */
+.nodes-container {
+  overflow: visible !important;
+  position: relative;
+  padding: 2rem;
+}
+
+/* Remove any animations that might cause blinking */
+.connection-path {
+  animation: none;
+}
+
+/* Add spring animation classes */
+.spring-connection {
+  will-change: transform;
+  transform-origin: left center;
+}
+
+.spring-arrow {
+  will-change: transform;
+  transform-origin: center;
+}
